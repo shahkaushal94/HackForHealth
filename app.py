@@ -10,6 +10,9 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello World!'
 
+@app.route('/timeline', methods=['GET'])
+def timeline():
+    return render_template('index.html')
 
 
 @app.route("/test")
