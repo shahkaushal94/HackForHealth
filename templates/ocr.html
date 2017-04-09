@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OCR</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+</head>
+<body>
+
+<input type="file" name="video" accept="video/*" capture="capture">
+
+
+
+
+
+<script type="text/javascript">
+   var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "https://westus.api.cognitive.microsoft.com/vision/v1.0/ocr",
+  "method": "POST",
+  "headers": {
+    "language": "unk",
+    "detectorientation": "true",
+    "content-type": "application/json",
+    "ocp-apim-subscription-key": "2077437d423a4d44a0a0c8fe2358118b",
+    "cache-control": "no-cache"
+    },
+  "processData": false,
+  "data": "{\"url\":\"http://i.imgur.com/4im4oTK.jpg\"}"
+
+
+  //http://i.imgur.com/cZhBLHz.jpg
+  //
+
+
+
+
+}
+$.ajax(settings).done(function (response) {
+	//alert(JSON.parse(response.regions))
+
+	var string = ""
+
+	console.log(response.regions[0].lines.length);
+
+	for(var i=0; i<response.regions[0].lines.length; i++ )
+    {
+    	console.log(JSON.stringify(response.regions[0].lines[i].words[0].text)); 
+    	string += JSON.stringify(response.regions[0].lines[i].words[0].text)
+    }
+
+    string = string.replace(/"/g, " ");
+    string = string.replace(/[^a-zA-Z ]/g, "")
+
+
+
+    function removeSpecialChars(str) {
+  return str.replace(/(?!\w|\s)./g, '')
+    .replace(/\s+/g, ' ')
+    .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, '$2');
+}
+
+    string = removeSpecialChars(string);
+
+
+    console.log(string + " ISDJADK");
+
+
+
+
+/*    string = string.split(" ")
+
+*/
+	
+	var drugKeyword = ["Zantac", "PREDNISONE", ]
+	
+    //console.log(string.substring(0,index) +  " is the string");
+
+
+
+});
+</script>
+</body>
+</html>
