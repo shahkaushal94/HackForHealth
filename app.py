@@ -1,9 +1,27 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from flaskext.mysql import MySQL
+
 import json
 
 app = Flask(__name__)
+
+
+mysql = MySQL()
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = '1234'
+app.config['MYSQL_DATABASE_DB'] = 'cancer'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+mysql.init_app(app)
+
+
+
+
+
+
+
+
 
 
 @app.route('/')
@@ -32,8 +50,24 @@ def signUp():
 
 @app.route("/getData", methods=['GET', 'POST'])
 def getData():
-	sd = request.form["startdate"]
-	return sd
+
+	DrugName = request.form["DrugName"]
+	DrugType = request.form["DrugType"]
+	DrugStartDate = request.form["DrugStartDate"]
+	DrugDose = request.form["DrugDose"]
+	Symptoms = request.form["Symptoms"]
+	DrugEndDate = request.form["DrugEndDate"]
+	CancerType = request.form["CancerType"]
+	CancerStage = request.form["CancerStage"]
+
+	cursor = mysql.connect().cursor()
+
+
+	cursor.execute("Insert into question values (DrugName, DrugType, DrugStartDate, DrugDose, Symptoms, DrugEndData, CancerType, CancerStage)")
+	cursor.execute("SELECT * from question")
+	data = cursor.fetchall()
+	cursor.close()
+	return str(data)
 	return json.dumps({'status':'OK', 'user':'Kaushal'})
 
 
