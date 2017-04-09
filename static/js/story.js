@@ -4,6 +4,9 @@ $(function(){
 
 function populateTimeline() {
   var events = [];
+  var story = [{
+    start_date: { year: }
+  }];
   for(var i = 0; i < 10; ++i) {
     events.push({});
     events[i].start_date = {year:2000 + i, month: i};
