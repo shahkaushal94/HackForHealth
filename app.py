@@ -1,11 +1,14 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import jsonify
 from flaskext.mysql import MySQL
+from flask_cors import CORS, cross_origin
 
 import json
 
 app = Flask(__name__)
+CORS(app)
 
 
 mysql = MySQL()
@@ -15,36 +18,32 @@ app.config['MYSQL_DATABASE_DB'] = 'cancer'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 
-
-
-
-
-
-
-
-
-
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+	return 'Hello World!'
 
 @app.route('/timeline', methods=['GET'])
 def timeline():
-    return render_template('index.html')
+	return render_template('index.html')
 
 @app.route('/drug/<id>')
 def drug(id):
-    return render_template('drug_info.html');
-
-@app.route("/test")
-def test():
-	return "How is this working?"
+	return render_template('drug_info.html');
 
 
+@app.route('/getDrugs', methods=['GET'])
+def getDrugs():
+	db = mysql.connect()
+	cursor = db.cursor()
+	cursor.execute("SELECT * from question")
+	data = cursor.fetchall()
+	db.commit()
+	cursor.close()
+	return jsonify(data=data)
 
 @app.route('/signUp', methods=['GET', 'POST'])
 def signUp():
-    return render_template('form.html')
+	return render_template('form.html')
 
 
 
