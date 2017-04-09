@@ -60,12 +60,17 @@ def getData():
 	CancerType = request.form["CancerType"]
 	CancerStage = request.form["CancerStage"]
 
-	cursor = mysql.connect().cursor()
+
+	#return DrugEndDate + DrugDose + DrugName + DrugStartDate + DrugEndDate
+
+	db = mysql.connect()
+	cursor = db.cursor()
 
 
-	cursor.execute("Insert into question values (DrugName, DrugType, DrugStartDate, DrugDose, Symptoms, DrugEndData, CancerType, CancerStage)")
+	cursor.execute("Insert into question values (%s, %s,%s,%s,%s,%s,%s,%s)",(DrugName, DrugType, DrugStartDate, DrugDose, Symptoms, DrugEndDate, CancerType, CancerStage))
 	cursor.execute("SELECT * from question")
 	data = cursor.fetchall()
+	db.commit()
 	cursor.close()
 	return str(data)
 	return json.dumps({'status':'OK', 'user':'Kaushal'})
