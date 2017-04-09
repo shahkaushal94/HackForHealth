@@ -47,6 +47,12 @@ def signUp():
     return render_template('form.html')
 
 
+@app.route('/ocr', methods=['GET', 'POST'])
+def ocr():
+	return render_template('ocr.html')
+
+
+
 
 @app.route("/getData", methods=['GET', 'POST'])
 def getData():
