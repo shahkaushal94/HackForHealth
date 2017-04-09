@@ -22,15 +22,128 @@ th, td {
 }
 
 tr:nth-child(even){background-color: #f2f2f2}
+
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    font-size: 15px;
+    visibility: hidden;
+    width: 500px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 3;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+#addbutton {
+  border: none;
+  border-radius: 8px;
+  background-color: #e7e7e7;
+  color: black;
+  padding: 7px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  outline:none;
+  font-family: 'Helvetica Neue';
+}
+#formbutton {
+    border: none;
+    border-radius: 8px;
+    background-color: #e7e7e7;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    outline:none;
+    font-family: 'Helvetica Neue';
+}
+#hiddenform {
+  float:bottom;
+  padding: 15px;
+  width:500px;
+  font-family: 'Helvetica Neue';
+}
+.formrow {
+
+}
 </style>
 </head>
 
 <body>
+  <button style=""id='formbutton'>Show Form</button>
+  <form id='hiddenform'>
+    <div class="formrow">
+    <label for="autocomplete-input">Drug Name: </label>
+    <input type="text" id="autocomplete-input" class="" name="DrugName">
+  </div>
+    <div class="formrow">
+    <label for="DrugDose">Dosage: </label>
+    <input name="DrugDose" id="DrugDose" type="text" class="" name="Symptoms">
+  </div>
+
+    <div class="formrow">
+    <label for="DrugStartDate" class="">Start Date: </label>
+    <input id="DrugStartDate" name="DrugStartDate" type="date" class="">
+  </div>
+
+    <div class="formrow">
+    <label for="DrugEndDate" class="">End Date: </label>
+    <input id="DrugEndDate" name="DrugEndDate" type="date" class="">
+  </div>
+
+    <div class="formrow">
+    <label for="DrugType">Drug Type: </label>
+    <input name="DrugType" id="DrugType" type="text" class="">
+  </div>
+
+    <div class="formrow">
+    <label for="CancerType">Cancer Type: </label>
+    <input id="CancerType" type="text" class="" name="CancerType">
+  </div>
+
+    <div class="formrow">
+    <label for="symptoms">Symptoms: </label>
+    <input name="Symptoms" id="symptoms" type="text" class="">
+  </div>
+
+    <div class="formrow">
+    <label for="CancerStage">Cancer Stage: </label>
+    <input id="CancerStage" type="text" class="" name="CancerStage">
+  </div>
+    <button id='addbutton'>Submit</button>
+  </form>
+
+
   <div id='timeline-embed' style="width: 100%; height: 600px"></div>
 
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+  crossorigin="anonymous"></script>
   <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
   <script type="text/javascript" src="{{url_for('static', filename='js/index.js')}}"></script>
+
 
 </body>
 </html>
