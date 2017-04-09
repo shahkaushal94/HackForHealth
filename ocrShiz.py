@@ -14,7 +14,7 @@ params = urllib.parse.urlencode({
 
 try:
     conn = http.client.HTTPSConnection('westus.api.cognitive.microsoft.com')
-    conn.request("POST", "/vision/v1.0/ocr?%s" % params, "http://i.dailymail.co.uk/i/pix/2016/11/07/23/3A29240900000578-0-image-a-7_1478560700393.jpg", headers)
+    conn.request("POST", "/vision/v1.0/ocr?%s" % params, {"url":"http://example.com/images/test.jpg"}, headers)
     response = conn.getresponse()
     data = response.read()
     print(data)

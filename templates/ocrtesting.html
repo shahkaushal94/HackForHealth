@@ -1,0 +1,63 @@
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        // makeblob cribbed from https://github.com/ebidel/filer.js/blob/master/src/filer.js#L137
+        makeblob = function (dataURL) {
+            var BASE64_MARKER = ';base64,';
+            if (dataURL.indexOf(BASE64_MARKER) == -1) {
+                var parts = dataURL.split(',');
+                var contentType = parts[0].split(':')[1];
+                var raw = decodeURIComponent(parts[1]);
+                return new Blob([raw], { type: contentType });
+            }
+            var parts = dataURL.split(BASE64_MARKER);
+            var contentType = parts[0].split(':')[1];
+            var raw = window.atob(parts[1]);
+            var rawLength = raw.length;
+
+            var uInt8Array = new Uint8Array(rawLength);
+
+            for (var i = 0; i < rawLength; ++i) {
+                uInt8Array[i] = raw.charCodeAt(i);
+            }
+
+            return new Blob([uInt8Array], { type: contentType });
+        }
+        ocr = function () {
+            $.ajax({
+                url: "http://api.projectoxford.ai/vision/v1/ocr",
+                beforeSend: function (xhrObj) {
+                    // Request headers
+                    xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
+                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "2077437d423a4d44a0a0c8fe2358118b");
+                },
+                type: "POST",
+                // The DataURL will be something like "data:image/png;base64,{image-data-in-base64}"
+                data: makeblob(document.getElementById("c").toDataURL()),
+                processData: false
+            })
+            .success(function (data, status) {
+                //display data
+                console.log(JSON.stringify(data));
+                debugger;
+            })
+            .error(function (xhr, status, err) {
+                debugger;
+            });
+        }
+    </script>
+</head>
+<body>
+    <canvas id="c" width="100" height="50"></canvas>
+    <script type="text/javascript">
+        var ctx = document.getElementById("c").getContext("2d");
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, 100, 50);
+        ctx.font = "20px serif";
+        ctx.fillStyle = "white";
+        ctx.fillText("Hello!", 35, 45);
+    </script>
+    <button onclick="ocr();">ocr!</button>
+</body>
+</html>
