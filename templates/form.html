@@ -30,26 +30,25 @@
       <div class="row">
         <div class="col s6">
           <label for="DrugStartDate" class="">Start Date</label>
-          <input id="DrugStartDate" name="DrugStartDate" type="date" class="">
+          <input id="DrugStartDate" name="DrugStartDate" type="date" class="datepicker">
         </div>
         <div class="col s6">
           <label for="DrugEndDate" class="">End Date</label>
-          <input id="DrugEndDate" name="DrugEndDate" type="date" class="">
+          <input id="DrugEndDate" name="DrugEndDate" type="date" class="datepicker">
         </div>
       </div>
-      <!-- Drug Type Cancer Type -->
+      <!--Drug Type Cancer Type  -->
       <div class="row">
-        <div class="col s6">
-          <label for="DrugType" >Drug Type</label>
-          <input id="DrugType" name="DrugType" type="date" class="datepicker">
+        <div class="input-field col s6">
+          <input name="DrugType" id="DrugType" type="text" class="validate">
+          <label for="DrugType">Drug Type</label>
         </div>
-        <!-- end date picker -->
-        <div class="col s6">
+        <div class="input-field col s6">
+          <input id="CancerType" type="text" class="validate" name="CancerType">
           <label for="CancerType">Cancer Type</label>
-          <input id="CancerType" name="CancerType" type="date" class="datepicker">
         </div>
       </div>
-      <!-- symptoms, side effects -->
+      <!-- symptoms,cancer stage -->
       <div class="row">
         <div class="input-field col s6">
           <input name="Symptoms" id="symptoms" type="text" class="validate">
