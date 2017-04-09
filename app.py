@@ -14,6 +14,9 @@ def hello_world():
 def timeline():
     return render_template('index.html')
 
+@app.route('/drug/<id>')
+def drug(id):
+    return render_template('drug_info.html');
 
 @app.route("/test")
 def test():

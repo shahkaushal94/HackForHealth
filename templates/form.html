@@ -14,39 +14,51 @@
   <div class="row">
     <form class="col s12"  action="getData" method="post">
       <!-- Drug name autocompete -->
+
       <div class="row">
-        <div class="col s12">
-          <div class="row">
-            <div class="input-field col s12">
-              <i class="material-icons prefix">textsms</i>
-              <input type="text" id="autocomplete-input" class="autocomplete">
-              <label for="autocomplete-input">Autocomplete</label>
-            </div>
-          </div>
+        <div class="input-field col s6">
+          <input type="text" id="autocomplete-input" class="autocomplete" name="DrugName">
+          <label for="autocomplete-input">Drug Name: </label>
+        </div>
+        <div class="input-field col s6">
+          <input name="DrugDose" id="DrugDose" type="text" class="validate" name="Symptoms">
+          <label for="DrugDose">Dosage</label>
         </div>
       </div>
 
-      <!-- start date picker -->
+      <!-- drug type cancer type -->
       <div class="row">
         <div class="col s6">
-          <label for="birthdate" class="">Start Date</label>
-          <input name="startdate" type="date" class="datepicker">
+          <label for="DrugType" class="">Start Date</label>
+          <input id="DrugType" name="DrugType" type="date" class="">
         </div>
         <!-- end date picker -->
         <div class="col s6">
-          <label for="birthdate" class="">End Date</label>
-          <input type="date" class="datepicker">
+          <label for="CancerType" class="">End Date</label>
+          <input id="CancerType" name="CancerType" type="date" class="">
+        </div>
+      </div>
+      <!-- start date picker -->
+      <div class="row">
+        <div class="col s6">
+          <label for="DrugStartDate" >Start Date</label>
+          <input id="DrugStartDate" name="DrugStartDate" type="date" class="datepicker">
+        </div>
+        <!-- end date picker -->
+        <div class="col s6">
+          <label for="DrugEndDate" >End Date</label>
+          <input id="DrugEndDate" name="DrugEndDate" type="date" class="datepicker">
         </div>
       </div>
       <!-- symptoms, side effects -->
       <div class="row">
         <div class="input-field col s6">
-          <input  id="symptoms" type="text" class="validate">
+          <input name="Symptoms" id="symptoms" type="text" class="validate">
           <label for="symptoms">Symptoms</label>
         </div>
         <div class="input-field col s6">
-          <input id="side_effects" type="text" class="validate">
-          <label for="side_effects">Side Effects</label>
+          <input id="side_effects" type="text" class="validate" name="Symptoms">
+          <label for="side_effects">Symptoms</label>
         </div>
       </div>
       <button class="btn waves-effect waves-light" type="submit" name="action">Submit
