@@ -1,16 +1,27 @@
 $(function() {
   localStorage.clear();
   $('#hiddenform').hide();
-  $('searchbar').autocomplete({
-    source:function(request, response) {
-      console.log(request.term);
-      response('hello');
-    }
-  });
   createFormButton();
   createAddButton();
   populateTimeline();
 });
+function download(filename, text) {
+  var json = JSON.parse(localStorage.getItem('pdf'));
+  var text = "";
+  json.forEach(obj => {
+    text+=`${obj.drug_name} | ${obj.drug_start_date} | ${obj.drug_end_date} | ${obj.drug_dose} | ${obj.symptoms} | ${obj.cancer_stage} | ${obj.cancer_type} \n`;
+  });
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
 function createFormButton() {
   var button = $('#formbutton');
   button.click(function() {
@@ -88,6 +99,7 @@ function populateTimeline(add=false) {
       data = data.concat(added);
       // console.log('data', data);
     }
+    localStorage.setItem('pdf', JSON.stringify(data));
     return data;
   }).then(function(objects) {
     // console.log(objects);
@@ -131,8 +143,8 @@ function populateTimeline(add=false) {
       var end_date = splitDate(x.drug.drug_end_date);
       var stage = parseInt(x.drug.cancer_stage);
       // a.background = {color:colors[stage - 1]};
-      a.start_date = {year:start_date[2], month:start_date[0]};
-      a.end_date = {year:end_date[2], month:end_date[0]};
+      a.start_date = {year:start_date[2], day:start_date[1], month:start_date[0]};
+      a.end_date = {year:end_date[2], day:end_date[1], month:end_date[0]};
       if(x.error == undefined) {
         var d = x.result.description;
         var desc = 'No Description Found.';

@@ -1,104 +1,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>OCR</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <title>OCR</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 </head>
 <body>
 
-    <h1> Take a picture of your drug</h1>
-    <a href="#" id="capture" >Take photo</a>
+  <h1> Take a picture of your drug</h1>
+  <a href="#" id="capture" >Take photo</a>
 
 
 
 
-<canvas id = "canvas" width="400" height="300">
-<img id="photo" src="http://placekitten.com/400/300" alt="">
-</canvas>
+  <canvas id = "canvas" width="400" height="300">
+    <img id="photo" src="http://placekitten.com/400/300" alt="">
+  </canvas>
 
 
 
-   <video id="video" width="400" height="300">
-       <br>
-   </video>
+  <video id="video" width="400" height="300">
+    <br>
+  </video>
+  <script>
+  var video = document.getElementById('video'),
+  vendorUrl = window.URL || window.webkitURL;
 
-    <script>
+  navigator.getMedia = navigator.getUserMedia ||
+  navigator.webkitGetUserMedia ||
+  navigator.mozGetUserMedia ||
+  navigator.msGetUserMedia;
 
-        var video = document.getElementById('video'),
-    vendorUrl = window.URL || window.webkitURL;
+  navigator.getMedia({
+    video : true,
+    audio: false
+  }, function(stream){
+    video.src = vendorUrl.createObjectURL(stream);
+    video.play();
+  }, function(error){
 
-        navigator.getMedia = navigator.getUserMedia ||
-                             navigator.webkitGetUserMedia ||
-                            navigator.mozGetUserMedia ||
-                navigator.msGetUserMedia;
-
-        navigator.getMedia({
-            video : true,
-            audio: false
-        }, function(stream){
-            video.src = vendorUrl.createObjectURL(stream);
-            video.play();
-        }, function(error){
-
-        });
+  });
 
 
 
-        canvas =  document.getElementById('canvas');
-        context = canvas.getContext('2d');
-        document.getElementById('capture').addEventListener('click',function(){
+  canvas =  document.getElementById('canvas');
+  context = canvas.getContext('2d');
+  document.getElementById('capture').addEventListener('click',function(){
 
-        photo = document.getElementById('photo');
-        context.drawImage(video,0,0,400,300);
-        photo.setAttribute('src',canvas.toDataURL('image/png'));
+    photo = document.getElementById('photo');
+    context.drawImage(video,0,0,400,300);
+    photo.setAttribute('src',canvas.toDataURL('image/png'));
 
 
-        var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-        window.location.href=image;
-        //alert(photo.src);
+    var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    window.location.href=image;
+    //alert(photo.src);
 
 
 
 
 
-        });
+  });
 
-    
-   var settings = {
-  "async": true,
-  "crossDomain": true,
-  "url": "https://westus.api.cognitive.microsoft.com/vision/v1.0/ocr",
-  "method": "POST",
-  "headers": {
-    "language": "unk",
-    "detectorientation": "true",
-    "content-type": "application/json",
-    "ocp-apim-subscription-key": "2077437d423a4d44a0a0c8fe2358118b",
-    "cache-control": "no-cache"
+
+  var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://westus.api.cognitive.microsoft.com/vision/v1.0/ocr",
+    "method": "POST",
+    "headers": {
+      "language": "unk",
+      "detectorientation": "true",
+      "content-type": "application/json",
+      "ocp-apim-subscription-key": "2077437d423a4d44a0a0c8fe2358118b",
+      "cache-control": "no-cache"
     },
-  "processData": false,
- // "data": "{\"url\":\"http://i.imgur.com/4im4oTK.jpg\"}"
+    "processData": false,
+    // "data": "{\"url\":\"http://i.imgur.com/4im4oTK.jpg\"}"
 
-   "data": "{\"url\":\"http://i.imgur.com/irajbiq.jpg\"}"
+    "data": "{\"url\":\"http://i.imgur.com/irajbiq.jpg\"}"
 
-  //http://i.imgur.com/cZhBLHz.jpg
-  //
-
-
+    //http://i.imgur.com/cZhBLHz.jpg
+    //
 
 
-}
-$.ajax(settings).done(function (response) {
-	//alert(JSON.parse(response.regions));
 
-	var string = "";
 
-	//console.log(response.regions[0].lines.length);
+  }
+  $.ajax(settings).done(function (response) {
+    //alert(JSON.parse(response.regions));
 
-	for(var i=0; i<response.regions[0].lines.length; i++ )
+    var string = "";
+
+    //console.log(response.regions[0].lines.length);
+
+    for(var i=0; i<response.regions[0].lines.length; i++ )
     {
-    	console.log(JSON.stringify(response.regions[0].lines[i].words[0].text)); 
-    	string += JSON.stringify(response.regions[0].lines[i].words[0].text)
+      console.log(JSON.stringify(response.regions[0].lines[i].words[0].text));
+      string += JSON.stringify(response.regions[0].lines[i].words[0].text)
     }
 
     string = string.replace(/"/g, " ");
@@ -107,10 +105,10 @@ $.ajax(settings).done(function (response) {
 
 
     function removeSpecialChars(str) {
-  return str.replace(/(?!\w|\s)./g, '')
-    .replace(/\s+/g, ' ')
-    .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, '$2');
-}
+      return str.replace(/(?!\w|\s)./g, '')
+      .replace(/\s+/g, ' ')
+      .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, '$2');
+    }
 
     string = removeSpecialChars(string);
 
@@ -120,21 +118,19 @@ $.ajax(settings).done(function (response) {
 
 
 
-/*    string = string.split(" ")
+    /*    string = string.split(" ")
 
-*/
-	
-	var drugKeyword = ["Zantac", "PREDNISONE", ]
-	
+    */
+
+    var drugKeyword = ["Zantac", "PREDNISONE", ]
+
     //console.log(string.substring(0,index) +  " is the string");
 
 
 
-});
-</script>
-
-#}
-
+  });
+  </script>
+  
 
 </body>
 </html>

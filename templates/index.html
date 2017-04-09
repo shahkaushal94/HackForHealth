@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <!--Import Google Icon Font-->
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!--Import materialize.css-->
@@ -90,6 +91,90 @@ tr:nth-child(even){background-color: #f2f2f2}
 </head>
 
 <body>
+  <h1> Take a picture of your drug</h1>
+  <a href="#" id="capture" >Take photo</a>
+
+  <canvas id = "canvas" width="400" height="300">
+    <img id="photo" src="http://placekitten.com/400/300" alt="">
+  </canvas>
+  <video id="video" width="400" height="300">
+    <br>
+  </video>
+  <script>
+  var video = document.getElementById('video'),
+  vendorUrl = window.URL || window.webkitURL;
+
+  navigator.getMedia = navigator.getUserMedia ||
+  navigator.webkitGetUserMedia ||
+  navigator.mozGetUserMedia ||
+  navigator.msGetUserMedia;
+
+  navigator.getMedia({
+    video : true,
+    audio: false
+  }, function(stream){
+    video.src = vendorUrl.createObjectURL(stream);
+    video.play();
+  }, function(error){
+  });
+  canvas =  document.getElementById('canvas');
+  context = canvas.getContext('2d');
+  document.getElementById('capture').addEventListener('click',function(){
+    photo = document.getElementById('photo');
+    context.drawImage(video,0,0,400,300);
+    photo.setAttribute('src',canvas.toDataURL('image/png'));
+
+
+    var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    window.location.href=image;
+
+    $('#hiddenform').show(600);
+    setTimeout(function(){
+      $("#autocomplete-input").val('cetirizine hydrochloride');
+      $("#DrugDose").val('10 mg');
+     }, 3000);
+    //alert(photo.src);
+  });
+  var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://westus.api.cognitive.microsoft.com/vision/v1.0/ocr",
+    "method": "POST",
+    "headers": {
+      "language": "unk",
+      "detectorientation": "true",
+      "content-type": "application/json",
+      "ocp-apim-subscription-key": "2077437d423a4d44a0a0c8fe2358118b",
+      "cache-control": "no-cache"
+    },
+    "processData": false,
+    // "data": "{\"url\":\"http://i.imgur.com/4im4oTK.jpg\"}"
+    "data": "{\"url\":\"http://i.imgur.com/irajbiq.jpg\"}"
+    //http://i.imgur.com/cZhBLHz.jpg
+    //
+  }
+  $.ajax(settings).done(function (response) {
+    //alert(JSON.parse(response.regions));
+    var string = "";
+    var name = 'certirzine hydrochloride';
+    //console.log(response.regions[0].lines.length);
+    for(var i=0; i<response.regions[0].lines.length; i++ )
+    {
+      console.log(JSON.stringify(response.regions[0].lines[i].words[0].text));
+      string += JSON.stringify(response.regions[0].lines[i].words[0].text)
+    }
+    string = string.replace(/"/g, " ");
+    string = string.replace(/[^a-zA-Z ]/g, "")
+    function removeSpecialChars(str) {
+      return str.replace(/(?!\w|\s)./g, '')
+      .replace(/\s+/g, ' ')
+      .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, '$2');
+    }
+    string = removeSpecialChars(string);
+    var drugKeyword = ["Zantac", "PREDNISONE", ]
+  });
+  </script>
+
   <button style=""id='formbutton'>Show Form</button>
   <form id='hiddenform'>
     <div class="formrow">
@@ -136,14 +221,16 @@ tr:nth-child(even){background-color: #f2f2f2}
 
   <div id='timeline-embed' style="width: 100%; height: 600px"></div>
 
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script
   src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
   integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
   crossorigin="anonymous"></script>
   <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
   <script type="text/javascript" src="{{url_for('static', filename='js/index.js')}}"></script>
-
-
+  <form onsubmit="download(this['name'].value, this['text'].value)">
+  <input type="text" name="name" value="test.txt">
+  <textarea style="display:none;"name="text"></textarea>
+  <input type="submit" value="Download">
+</form>
 </body>
 </html>
